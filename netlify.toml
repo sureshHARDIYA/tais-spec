@@ -1,6 +1,7 @@
 [build]
-  command = "npm install -g pnpm && pnpm run build"
+  command = "pnpm run build"   # or "pnpm build" if that's what your package.json exposes
   publish = "docs"
 
 [build.environment]
   NODE_VERSION = "20"
+  PNPM_VERSION = "10.15.0"   # optional: Netlify will install this pnpm version for you
