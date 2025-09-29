@@ -8,6 +8,7 @@
   "scripts": {
     "start": "redocly preview-docs",
     "build": "redocly bundle -o dist/bundle.yaml",
+    "build:docs": "redocly build-docs --output=site",
     "test": "redocly lint"
   }
 }
