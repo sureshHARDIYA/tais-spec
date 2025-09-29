@@ -1,5 +1,5 @@
 [build]
-  command = "pnpm run build:docs"
+  command = "pnpm run build"
   publish = "docs"
 
 [build.environment]
