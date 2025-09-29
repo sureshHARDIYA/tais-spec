@@ -1,21 +1,20 @@
 openapi: 3.1.0
 info:
   version: 1.0.0
-  title: Example API
+  title: TAIS Backend API
   termsOfService: https://example.com/terms/
   contact:
-    name: Contact our support
-    email: contact@example.com
-    url: http://example.com/contact
+    name: Suresh Kumar Mukhiya
+    email: itsmeskm99@gmail.com
+    url: https://www.skmukhiya.com.np
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   x-logo:
-    url: 'https://redocly.github.io/openapi-template/logo.png'
-    altText: OpenAPI example logo
+    url: "https://www.tryg.no/themes/trygno/assets/svg/tryg-logo.svg"
+    altText: Tryg Logo
   description: >
-    This is an **example** API to demonstrate features of the OpenAPI
-    specification.
+    This is the API for the TAIS Backend.
 
     # Introduction
 
@@ -23,46 +22,24 @@ info:
     describing your API in [OpenAPI/Swagger
     format](https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md).
 
-    It also demonstrates features of the
-    [create-openapi-repo](https://github.com/Redocly/create-openapi-repo) tool
-    and the [Redoc](https://github.com/Redocly/Redoc) documentation engine. Beyond
-    the standard OpenAPI syntax, we use a few 
-    [vendor extensions](https://github.com/Redocly/Redoc/blob/main/docs/redoc-vendor-extensions.md).
-
-    # OpenAPI Specification
-
-    The goal of The OpenAPI Specification is to define a standard, language-agnostic interface to REST APIs which
-    allows both humans and computers to discover and understand the capabilities
-    of the service without access to source
-    code, documentation, or through network traffic inspection. When properly
-    defined via OpenAPI, a consumer can 
-    understand and interact with the remote service with a minimal amount of
-    implementation logic. Similar to what
-    interfaces have done for lower-level programming, OpenAPI removes the
-    guesswork in calling the service.
-externalDocs:
-  description: "Find out how to create a GitHub repo for your OpenAPI definition."
-  url: 'https://github.com/Redocly/create-openapi-repo'
 tags:
-  - name: Echo
-    description: "Example echo operations."
+  - name: Project
+    description: "Project related operations."
+  - name: SonarQube
+    description: "SonarQube reports and analysis."
+  - name: CI/CD
+    description: "CI/CD pipelines, statistics, and dependencies."
   - name: User
-    description: "Example actions on user accounts."
-  - name: Admin
-    description: "Example operations reserved for administrators."
-  - name: Info
-    description: "Example operations for retrieving information."
+    description: "User related operations."
   - name: Tag
-    description: "This is a tag description."
+    description: "Tag related operations."
 x-tagGroups:
   - name: General
     tags:
-      - User
-      - Info
+      - Project
+      - SonarQube
+      - CI/CD
       - Echo
-  - name: Administration
-    tags:
-      - Admin
 servers:
   - url: https://{tenant}/api/v1
     variables:
@@ -71,18 +48,34 @@ servers:
         description: Your tenant id
   - url: https://example.com/api/v1
 paths:
-  '/users/{username}':
-    $ref: 'paths/users_{username}.yaml'
-  '/user':
-    $ref: 'paths/user.yaml'
-  '/user/list':
-    $ref: 'paths/user-status.yaml'
+  "/users/{username}":
+    $ref: "paths/users_{username}.yaml"
+  "/user":
+    $ref: "paths/user.yaml"
+  "/user/list":
+    $ref: "paths/user-status.yaml"
   /pathItem:
     $ref: paths/pathItem.yaml
   /pathItemWithExamples:
     $ref: paths/pathItemWithExamples.yaml
-  '/echo':
-    $ref: 'paths/echo.yaml'
+  "/echo":
+    $ref: "paths/echo.yaml"
+  "/projects":
+    $ref: "paths/projects.yaml"
+  "/projects/{id}":
+    $ref: "paths/projects_{id}.yaml"
+  "/projects/{projectId}/sonarqube-reports":
+    $ref: "paths/projects_{projectId}_sonarqube-reports.yaml"
+  "/cicd/projects/{projectId}/pipelines":
+    $ref: "paths/cicd_projects_{projectId}_pipelines.yaml"
+  "/cicd/projects/{projectId}/pipelines/{pipelineId}/retry":
+    $ref: "paths/cicd_projects_{projectId}_pipelines_{pipelineId}_retry.yaml"
+  "/cicd/projects/{projectId}/statistics":
+    $ref: "paths/cicd_projects_{projectId}_statistics.yaml"
+  "/cicd/projects/{projectId}/dependencies":
+    $ref: "paths/cicd_projects_{projectId}_dependencies.yaml"
+  "/cicd/projects/{projectId}/commits":
+    $ref: "paths/cicd_projects_{projectId}_commits.yaml"
 components:
   securitySchemes:
     main_auth:
@@ -92,8 +85,8 @@ components:
         implicit:
           authorizationUrl: http://example.com/api/oauth/dialog
           scopes:
-            'read:users': read user info
-            'write:users': modify or remove users
+            "read:users": read user info
+            "write:users": modify or remove users
     api_key:
       description: "Example description text of the API key scheme."
       type: apiKey
@@ -102,21 +95,3 @@ components:
     basic_auth:
       type: http
       scheme: basic
-webhooks:
-  userInfo:
-    post:
-      summary: New user webhook
-      description: "Information about a new user in the system."
-      operationId: userInfo
-      tags:
-        - Info
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: 'components/schemas/User.yaml'
-      responses:
-        '200':
-          description: "Successfully retrieved information about a new user."
-      security:
-        - api_key: []

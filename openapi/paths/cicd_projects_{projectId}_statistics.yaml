@@ -1,0 +1,30 @@
+﻿parameters:
+  - name: projectId
+    in: path
+    required: true
+    description: GitLab project ID
+    schema:
+      type: integer
+get:
+  tags:
+    - CI/CD
+  summary: Get application statistics by project ID
+  description: "Fetch application statistics for a project (proxying GitLab Statistics API)."
+  operationId: getApplicationStatistics
+  security:
+    - api_key: []
+    - basic_auth: []
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            additionalProperties: true
+    "401":
+      description: Unauthorized
+    "404":
+      description: Not Found
+    "502":
+      description: Bad Gateway (GitLab upstream error)

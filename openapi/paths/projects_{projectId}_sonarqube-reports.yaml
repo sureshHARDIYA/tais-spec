@@ -1,0 +1,257 @@
+﻿parameters:
+  - name: projectId
+    in: path
+    required: true
+    description: Project ID
+    schema:
+      type: integer
+get:
+  tags:
+    - SonarQube
+  summary: List SonarQube reports for a project
+  description: "Get paginated SonarQube reports for a specific project ID."
+  operationId: listSonarQubeReportsByProject
+  security:
+    - api_key: []
+    - basic_auth: []
+  parameters:
+    - name: page
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Page number (1-based)
+    - name: pageSize
+      in: query
+      required: false
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+      description: Page size
+  responses:
+    "200":
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              items:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      format: uuid
+                    projectId:
+                      type: integer
+                    branch:
+                      type: string
+                      description: Branch name (e.g., main)
+                    analysisKey:
+                      type: string
+                      description: Unique key or analysis ID from SonarQube
+                    qualityGate:
+                      type: string
+                      description: Quality gate status at the time of analysis
+                    coverage:
+                      type: number
+                      format: float
+                    bugs:
+                      type: integer
+                    vulnerabilities:
+                      type: integer
+                    security_hotspots:
+                      type: integer
+                    code_smells:
+                      type: integer
+                    duplicated_lines_density:
+                      type: number
+                      format: float
+                    reliability_rating:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    security_rating:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    security_review_rating:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    sqale_rating:
+                      type: integer
+                      minimum: 1
+                      maximum: 5
+                    created_at:
+                      type: string
+                      format: date-time
+              page:
+                type: integer
+              pageSize:
+                type: integer
+              total:
+                type: integer
+          examples:
+            response:
+              value:
+                items:
+                  - id: "550e8400-e29b-41d4-a716-446655440000"
+                    projectId: 5572
+                    branch: "main"
+                    analysisKey: "AYuPp7e3Wk"
+                    qualityGate: "Passed"
+                    coverage: 87.2
+                    bugs: 0
+                    vulnerabilities: 0
+                    security_hotspots: 0
+                    code_smells: 0
+                    duplicated_lines_density: 0.0
+                    reliability_rating: 1
+                    security_rating: 1
+                    security_review_rating: 1
+                    sqale_rating: 1
+                    created_at: "2024-12-29T10:15:00Z"
+                page: 1
+                pageSize: 20
+                total: 10
+    "401":
+      description: Unauthorized
+    "404":
+      description: Not Found
+post:
+  tags:
+    - SonarQube
+  summary: Create a SonarQube report entry
+  description: "Create a SonarQube report entry for the given project ID."
+  operationId: createSonarQubeReport
+  security:
+    - api_key: []
+    - basic_auth: []
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - projectId
+            - branch
+            - analysisKey
+            - qualityGate
+            - coverage
+          properties:
+            projectId:
+              type: integer
+            branch:
+              type: string
+            analysisKey:
+              type: string
+            qualityGate:
+              type: string
+            coverage:
+              type: number
+              format: float
+            bugs:
+              type: integer
+            vulnerabilities:
+              type: integer
+            security_hotspots:
+              type: integer
+            code_smells:
+              type: integer
+            duplicated_lines_density:
+              type: number
+              format: float
+            reliability_rating:
+              type: integer
+              minimum: 1
+              maximum: 5
+            security_rating:
+              type: integer
+              minimum: 1
+              maximum: 5
+            security_review_rating:
+              type: integer
+              minimum: 1
+              maximum: 5
+            sqale_rating:
+              type: integer
+              minimum: 1
+              maximum: 5
+        example:
+          projectId: 5572
+          branch: "main"
+          analysisKey: "AYuPp7e3Wk"
+          qualityGate: "Passed"
+          coverage: 87.2
+          bugs: 0
+          vulnerabilities: 0
+          security_hotspots: 0
+          code_smells: 0
+          duplicated_lines_density: 0.0
+          reliability_rating: 1
+          security_rating: 1
+          security_review_rating: 1
+          sqale_rating: 1
+  responses:
+    "201":
+      description: Created
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              projectId:
+                type: integer
+              branch:
+                type: string
+              analysisKey:
+                type: string
+              qualityGate:
+                type: string
+              coverage:
+                type: number
+                format: float
+              bugs:
+                type: integer
+              vulnerabilities:
+                type: integer
+              security_hotspots:
+                type: integer
+              code_smells:
+                type: integer
+              duplicated_lines_density:
+                type: number
+                format: float
+              reliability_rating:
+                type: integer
+                minimum: 1
+                maximum: 5
+              security_rating:
+                type: integer
+                minimum: 1
+                maximum: 5
+              security_review_rating:
+                type: integer
+                minimum: 1
+                maximum: 5
+              sqale_rating:
+                type: integer
+                minimum: 1
+                maximum: 5
+              created_at:
+                type: string
+                format: date-time
+    "400":
+      description: Bad Request
+    "401":
+      description: Unauthorized
