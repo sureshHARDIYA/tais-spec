@@ -1,0 +1,224 @@
+type: object
+description: Represents a user activity in the CI/CD system
+required:
+  - id
+  - type
+  - action
+  - description
+  - timestamp
+properties:
+  id:
+    type: string
+    description: Unique identifier for the activity
+    example: "act_001"
+  type:
+    type: string
+    description: Type of activity performed
+    enum:
+      - commit
+      - pipeline
+      - deployment
+      - merge_request
+      - issue
+      - comment
+      - review
+      - approval
+    example: "pipeline"
+  action:
+    type: string
+    description: Specific action performed within the activity type
+    example: "pipeline_success"
+  description:
+    type: string
+    description: Human-readable description of the activity
+    example: "Pipeline #1234 succeeded for project 'web-app'"
+  timestamp:
+    type: string
+    format: date-time
+    description: When the activity occurred
+    example: "2024-01-20T14:45:30Z"
+  project:
+    type: object
+    description: Project information related to the activity
+    properties:
+      id:
+        type: integer
+        description: Project ID
+        example: 456
+      name:
+        type: string
+        description: Project name
+        example: "web-app"
+      path:
+        type: string
+        description: Project path with namespace
+        example: "company/web-app"
+      web_url:
+        type: string
+        format: uri
+        description: URL to the project
+        example: "https://gitlab.example.com/company/web-app"
+  pipeline:
+    type: object
+    description: Pipeline information (if activity is pipeline-related)
+    properties:
+      id:
+        type: integer
+        description: Pipeline ID
+        example: 1234
+      status:
+        type: string
+        description: Pipeline status
+        enum: [success, failed, running, pending, canceled, skipped]
+        example: "success"
+      duration:
+        type: integer
+        description: Pipeline duration in seconds
+        example: 420
+      web_url:
+        type: string
+        format: uri
+        description: URL to the pipeline
+        example: "https://gitlab.example.com/company/web-app/-/pipelines/1234"
+  commit:
+    type: object
+    description: Commit information (if activity is commit-related)
+    properties:
+      id:
+        type: string
+        description: Full commit SHA
+        example: "abc123def456789"
+      message:
+        type: string
+        description: Commit message
+        example: "Add user authentication middleware"
+      short_id:
+        type: string
+        description: Short commit ID
+        example: "abc123d"
+      web_url:
+        type: string
+        format: uri
+        description: URL to the commit
+        example: "https://gitlab.example.com/company/web-app/-/commit/abc123def456"
+  merge_request:
+    type: object
+    description: Merge request information (if activity is MR-related)
+    properties:
+      id:
+        type: integer
+        description: Merge request ID
+        example: 789
+      title:
+        type: string
+        description: Merge request title
+        example: "Add user authentication feature"
+      iid:
+        type: integer
+        description: Internal merge request ID
+        example: 12
+      state:
+        type: string
+        description: Merge request state
+        enum: [opened, closed, merged]
+        example: "opened"
+      web_url:
+        type: string
+        format: uri
+        description: URL to the merge request
+        example: "https://gitlab.example.com/company/web-app/-/merge_requests/12"
+  deployment:
+    type: object
+    description: Deployment information (if activity is deployment-related)
+    properties:
+      id:
+        type: integer
+        description: Deployment ID
+        example: 101
+      environment:
+        type: string
+        description: Deployment environment
+        example: "production"
+      status:
+        type: string
+        description: Deployment status
+        enum: [created, running, success, failed, canceled, skipped]
+        example: "success"
+      web_url:
+        type: string
+        format: uri
+        description: URL to the deployment
+        example: "https://gitlab.example.com/company/web-app/-/deployments/101"
+  metadata:
+    type: object
+    description: Additional metadata about the activity
+    properties:
+      duration:
+        type: integer
+        description: Activity duration in seconds (if applicable)
+        example: 120
+      branch:
+        type: string
+        description: Git branch name (if applicable)
+        example: "feature/user-auth"
+      tag:
+        type: string
+        description: Git tag name (if applicable)
+        example: "v1.2.3"
+      files_changed:
+        type: integer
+        description: Number of files changed (for commit activities)
+        example: 5
+      lines_added:
+        type: integer
+        description: Number of lines added (for commit activities)
+        example: 150
+      lines_removed:
+        type: integer
+        description: Number of lines removed (for commit activities)
+        example: 25
+examples:
+  pipeline_activity:
+    summary: Pipeline activity example
+    value:
+      id: "act_001"
+      type: "pipeline"
+      action: "pipeline_success"
+      description: "Pipeline #1234 succeeded for project 'web-app'"
+      timestamp: "2024-01-20T14:45:30Z"
+      project:
+        id: 456
+        name: "web-app"
+        path: "company/web-app"
+        web_url: "https://gitlab.example.com/company/web-app"
+      pipeline:
+        id: 1234
+        status: "success"
+        duration: 420
+        web_url: "https://gitlab.example.com/company/web-app/-/pipelines/1234"
+      metadata:
+        branch: "main"
+        files_changed: 3
+  commit_activity:
+    summary: Commit activity example
+    value:
+      id: "act_002"
+      type: "commit"
+      action: "push"
+      description: "Pushed 3 commits to branch 'feature/user-auth'"
+      timestamp: "2024-01-20T13:20:15Z"
+      project:
+        id: 456
+        name: "web-app"
+        path: "company/web-app"
+        web_url: "https://gitlab.example.com/company/web-app"
+      commit:
+        id: "abc123def456"
+        message: "Add user authentication middleware"
+        short_id: "abc123d"
+        web_url: "https://gitlab.example.com/company/web-app/-/commit/abc123def456"
+      metadata:
+        branch: "feature/user-auth"
+        files_changed: 5
+        lines_added: 150
+        lines_removed: 25

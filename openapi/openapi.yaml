@@ -6,13 +6,12 @@ info:
   contact:
     name: Suresh Kumar Mukhiya
     email: itsmeskm99@gmail.com
-    url: https://www.skmukhiya.com.np
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   x-logo:
-    url: "https://www.tryg.no/themes/trygno/assets/svg/tryg-logo.svg"
-    altText: Tryg Logo
+    url: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iMzAiIHZpZXdCb3g9IjAgMCA2MCAzMCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHRleHQgeD0iMzAiIHk9IjIwIiBmb250LWZhbWlseT0iQXJpYWwsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMjAiIGZvbnQtd2VpZ2h0PSJib2xkIiBmaWxsPSIjMDAwMDAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5UQUlTPC90ZXh0Pgo8L3N2Zz4K"
+    altText: TAIS Logo
   description: >
     This is the API for the TAIS Backend.
 
@@ -76,6 +75,8 @@ paths:
     $ref: "paths/cicd_projects_{projectId}_dependencies.yaml"
   "/cicd/projects/{projectId}/commits":
     $ref: "paths/cicd_projects_{projectId}_commits.yaml"
+  "/cicd/users/{username}/activities":
+    $ref: "paths/cicd_users_{username}_activities.yaml"
 components:
   securitySchemes:
     main_auth:
