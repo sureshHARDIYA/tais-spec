@@ -17,7 +17,6 @@ You can adopt any organization you wish.  We have some tips for organizing paths
 Use a predefined "path separator" and keep all of your path files in the top level of the `paths` folder.
 
 ```
-├── echo.yaml
 ├── path-item-with-examples.yaml
 ├── path-item.yaml
 └── users_{username}.yaml

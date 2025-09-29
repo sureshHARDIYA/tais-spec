@@ -57,8 +57,6 @@ paths:
     $ref: paths/pathItem.yaml
   /pathItemWithExamples:
     $ref: paths/pathItemWithExamples.yaml
-  "/echo":
-    $ref: "paths/echo.yaml"
   "/projects":
     $ref: "paths/projects.yaml"
   "/projects/{id}":
